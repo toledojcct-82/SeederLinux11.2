@@ -90,7 +90,129 @@ document.addEventListener('DOMContentLoaded', async () => {
         applyRolePermissions();
         await loadDashboard();
         await loadOrganizations();
-        setupEventListeners();
+        
+
+// ============ SCRIPT REORDER (DRAG AND DROP) ============
+
+let dragSrcEl = null;
+
+async function showReorderModal() {
+    try {
+        const res = await API.get('scripts');
+        if (!res.success) { Toast.error('Erro ao carregar scripts'); return; }
+
+        const core = res.data.filter(s => s.is_core).sort((a, b) => (a.execution_order || 0) - (b.execution_order || 0));
+        const list = document.getElementById('reorder-script-list');
+        if (!list) return;
+        list.innerHTML = '';
+
+        core.forEach(script => {
+            const item = document.createElement('div');
+            item.className = 'reorder-item';
+            item.draggable = true;
+            item.dataset.id = script.id;
+            item.dataset.order = script.execution_order;
+            item.innerHTML = `
+                <span class="drag-handle">&#9776;</span>
+                <span class="order-number">${script.execution_order || '?'}</span>
+                <span class="script-name">${Utils.escapeHtml(script.name)}</span>
+                <span class="text-slate-500 text-xs font-mono">${Utils.escapeHtml(script.filename || '')}</span>
+                <span class="script-badge core">Core</span>
+            `;
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('drop', handleDrop);
+            item.addEventListener('dragend', handleDragEnd);
+            list.appendChild(item);
+        });
+
+        openModal('modal-reorder-scripts');
+    } catch (e) {
+        Toast.error('Erro ao abrir reordenacao: ' + e.message);
+    }
+}
+window.showReorderModal = showReorderModal;
+
+function handleDragStart(e) {
+    dragSrcEl = this;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', this.dataset.id);
+    this.classList.add('dragging');
+}
+
+function handleDragOver(e) {
+    if (e.preventDefault) e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+}
+
+function handleDrop(e) {
+    if (e.stopPropagation) e.stopPropagation();
+    if (dragSrcEl && dragSrcEl !== this) {
+        const parent = this.parentNode;
+        const children = [...parent.children];
+        const from = children.indexOf(dragSrcEl);
+        const to = children.indexOf(this);
+        if (from < to) {
+            parent.insertBefore(dragSrcEl, this.nextSibling);
+        } else {
+            parent.insertBefore(dragSrcEl, this);
+        }
+        updateOrderNumbers();
+    }
+    return false;
+}
+
+function handleDragEnd() {
+    this.classList.remove('dragging');
+}
+
+function updateOrderNumbers() {
+    document.querySelectorAll('#reorder-script-list .reorder-item').forEach((item, i) => {
+        const num = item.querySelector('.order-number');
+        if (num) num.textContent = i + 1;
+    });
+}
+
+async function saveScriptOrder() {
+    const items = document.querySelectorAll('#reorder-script-list .reorder-item');
+    const scripts = Array.from(items).map((item, index) => ({
+        id: parseInt(item.dataset.id),
+        order: index + 1
+    }));
+
+    try {
+        const res = await API.post('update-script-order', { scripts });
+        if (res.success) {
+            Toast.success('Ordem salva com sucesso!');
+            closeModal('modal-reorder-scripts');
+            if (document.getElementById('scripts-list')) loadAllScripts();
+        } else {
+            Toast.error(res.error || 'Falha ao salvar ordem');
+        }
+    } catch (e) {
+        Toast.error('Erro ao salvar: ' + e.message);
+    }
+}
+window.saveScriptOrder = saveScriptOrder;
+
+async function resetScriptOrder() {
+    if (!confirm('Isso restaurara a ordem padrao dos scripts. Continuar?')) return;
+    try {
+        const res = await API.post('reset-script-order', {});
+        if (res.success) {
+            Toast.success('Ordem restaurada para o padrao!');
+            showReorderModal();
+        } else {
+            Toast.error(res.error || 'Falha ao restaurar ordem');
+        }
+    } catch (e) {
+        Toast.error('Erro ao restaurar: ' + e.message);
+    }
+}
+window.resetScriptOrder = resetScriptOrder;
+
+setupEventListeners();
     } catch (e) {
         console.error('Init error:', e);
         location.href = '/login.html';
@@ -103,7 +225,7 @@ function applyRolePermissions() {
     document.getElementById('user-initial').textContent = (currentUser?.username || 'U').charAt(0).toUpperCase();
     document.getElementById('user-role').textContent = roleLabels[role] || role;
 
-    ['nav-scripts-core', 'nav-users', 'btn-new-org', 'btn-new-user'].forEach(id => {
+    ['nav-scripts-core', 'nav-users', 'btn-new-org', 'btn-new-user', 'btn-reorder-scripts'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.toggle('hidden', role !== 'admin_gap');
     });

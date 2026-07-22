@@ -190,6 +190,18 @@ try {
             handleUploadAsset();
             break;
 
+        // Script ordering
+        case 'update-script-order':
+            requireAuth();
+            if ($method !== 'POST') jsonError('Method not allowed', 405);
+            handleUpdateScriptOrder($input);
+            break;
+        case 'reset-script-order':
+            requireAuth();
+            if ($method !== 'POST') jsonError('Method not allowed', 405);
+            handleResetScriptOrder();
+            break;
+
         default:
             jsonError('Endpoint invalido: ' . $action, 404);
     }
@@ -335,9 +347,9 @@ function handleDashboard(?int $filterOrgId = null) {
         );
         // Scripts for the org (core + custom)
         $stats['org_scripts'] = Database::fetchAll(
-            "SELECT id, name, filename, is_core, version FROM scripts
+            "SELECT id, name, filename, is_core, version, execution_order FROM scripts
              WHERE is_active = TRUE AND (is_core = TRUE OR organization_id = ?)
-             ORDER BY is_core DESC, name",
+             ORDER BY execution_order ASC, name",
             [$scopeOrgId]
         );
     } else {
@@ -581,18 +593,18 @@ function handleGetScripts($orgId) {
 
     if ($userOrgId !== null && !$isAdmin) {
         $scripts = Database::fetchAll(
-            "SELECT id, name, filename, description, is_core, is_active, organization_id, version, created_at
+            "SELECT id, name, filename, description, is_core, is_active, organization_id, version, execution_order, created_at
              FROM scripts
              WHERE is_active = TRUE AND (is_core = TRUE OR organization_id = ?)
-             ORDER BY is_core DESC, name",
+             ORDER BY execution_order ASC, name",
             [$userOrgId]
         );
     } else {
         $scripts = Database::fetchAll(
-            "SELECT id, name, filename, description, is_core, is_active, organization_id, version, created_at
+            "SELECT id, name, filename, description, is_core, is_active, organization_id, version, execution_order, created_at
              FROM scripts
              WHERE is_active = TRUE
-             ORDER BY is_core DESC, name"
+             ORDER BY execution_order ASC, name"
         );
     }
 
@@ -744,7 +756,7 @@ function handleGenerateBundle($input) {
         $scripts = Database::fetchAll(
             "SELECT id, name, filename, content, is_core FROM scripts
              WHERE is_active = TRUE AND (is_core = TRUE OR organization_id = ?)
-             ORDER BY is_core DESC, execution_order, name",
+             ORDER BY execution_order ASC, name",
             [$orgId]
         );
     } else {
@@ -753,7 +765,7 @@ function handleGenerateBundle($input) {
         $scripts = Database::fetchAll(
             "SELECT id, name, filename, content, is_core FROM scripts
              WHERE is_active = TRUE AND (is_core = TRUE OR id IN ($placeholders))
-             ORDER BY is_core DESC, execution_order, name",
+             ORDER BY execution_order ASC, name",
             $params
         );
     }
@@ -1503,5 +1515,76 @@ function handleUpdateBundleDescription($input) {
     Database::execute("UPDATE deploy_bundles SET description = ? WHERE id = ?", [$description, $bundleId]);
     log_audit('UPDATE', 'bundles', $bundleId, ['description' => $description]);
     jsonSuccess(null, 'Descricao atualizada');
+}
+
+function handleUpdateScriptOrder($input) {
+    if (!isAdminGap()) jsonError('Permissao negada', 403);
+
+    if (!isset($input['scripts']) || !is_array($input['scripts'])) {
+        jsonError('Array de scripts invalido');
+    }
+
+    Database::beginTransaction();
+    try {
+        foreach ($input['scripts'] as $item) {
+            $id = (int)($item['id'] ?? 0);
+            $order = (int)($item['order'] ?? 0);
+            if (!$id) continue;
+            Database::execute(
+                "UPDATE scripts SET execution_order = ? WHERE id = ?",
+                [$order, $id]
+            );
+            log_audit('UPDATE', 'scripts', $id, ['new_execution_order' => $order]);
+        }
+        Database::commit();
+        jsonSuccess(null, 'Ordem atualizada');
+    } catch (Exception $e) {
+        Database::rollback();
+        jsonError('Erro ao salvar ordem: ' . $e->getMessage(), 500);
+    }
+}
+
+function handleResetScriptOrder() {
+    if (!isAdminGap()) jsonError('Permissao negada', 403);
+
+    $defaultOrder = [
+        'core_dns.sh'              => 1,
+        'core_repositories.sh'     => 2,
+        'core_packages.sh'         => 3,
+        'core_legados.sh'          => 4,
+        'core_apps.sh'             => 5,
+        'core_domain.sh'           => 6,
+        'core_ssh.sh'              => 7,
+        'core_browser.sh'          => 8,
+        'core_inventory.sh'        => 9,
+        'core_printers.sh'         => 10,
+        'core_vnc.sh'              => 11,
+        'core_conky.sh'            => 12,
+        'core_config.sh'           => 13,
+        'core_branding.sh'         => 14,
+        'core_logon.sh'            => 15,
+        'core_logoff.sh'           => 16,
+        'core_session_lightdm.sh'  => 17,
+        'core_session_gdm3.sh'     => 18,
+        'core_session_sddm.sh'     => 19,
+        'core_agent.sh'            => 20,
+        'core_proxy.sh'            => 21,
+    ];
+
+    Database::beginTransaction();
+    try {
+        foreach ($defaultOrder as $filename => $order) {
+            Database::execute(
+                "UPDATE scripts SET execution_order = ? WHERE filename = ? AND is_core = TRUE",
+                [$order, $filename]
+            );
+        }
+        Database::commit();
+        log_audit('UPDATE', 'scripts', null, ['action' => 'reset_order_to_default']);
+        jsonSuccess(null, 'Ordem restaurada para o padrao');
+    } catch (Exception $e) {
+        Database::rollback();
+        jsonError('Erro ao restaurar ordem: ' . $e->getMessage(), 500);
+    }
 }
 
