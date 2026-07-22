@@ -847,10 +847,24 @@ function handleGenerateBundle($input) {
         ? base64_encode($adminPwdRow['value'])
         : '';
 
+    // Fetch VNC_PASSWORD_B64 for base64 encoding in scripts (same pattern as ADMIN_PASSWORD_B64)
+    $vncPwdRow = Database::fetchOne(
+        "SELECT ov.value FROM organization_variables ov
+         JOIN variable_definitions vd ON vd.id = ov.variable_id
+         WHERE ov.organization_id = ? AND vd.name = 'VNC_PASSWORD_B64'",
+        [$orgId]
+    );
+    $vncPwdEncoded = ($vncPwdRow && !empty($vncPwdRow['value']))
+        ? base64_encode($vncPwdRow['value'])
+        : '';
+
     foreach ($scripts as $s) {
         $scriptContent = substituir_placeholders($s['content'], $orgId);
         if ($adminPwdEncoded) {
             $scriptContent = str_replace('__ADMIN_PASSWORD_B64__', $adminPwdEncoded, $scriptContent);
+        }
+        if ($vncPwdEncoded) {
+            $scriptContent = str_replace('__VNC_PASSWORD_B64__', $vncPwdEncoded, $scriptContent);
         }
         $bundle .= "# --- {$s['name']} ({$s['filename']}) ---\n";
         $bundle .= $scriptContent . "\n\n";

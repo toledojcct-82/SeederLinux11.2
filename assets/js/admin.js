@@ -31,7 +31,7 @@ const categoryOrder = [
 
 // Campos dependentes: chave = var pai, valor = lista de vars que aparecem apenas se pai=true
 const dependentFields = {
-    'VNC_ENABLED': ['VNC_PASSWORD'],
+    'VNC_ENABLED': ['VNC_PASSWORD_B64'],
     'INSTALL_DESKTOP': ['DESKTOP_ENV'],
     'INVENTORY_ENABLED': ['OCS_SERVER', 'OCS_TAG', 'GLPI_SERVER'],
     'CERTIFICATE_AUTO_INSTALL': ['CERTIFICATE_BUNDLE'],
@@ -1008,10 +1008,14 @@ function renderTypedInput(v) {
         return `<input type="text" data-var-id="${varId}" value="${Utils.escapeHtml(val)}" class="var-input font-mono">`;
     }
     if (v.type === 'password') {
-        const alertBadge = v.name === 'ADMIN_PASSWORD_B64'
-            ? '<div class="var-security-alert" style="color:var(--error);font-size:0.8em;margin-top:4px">ATENCAO: Esta senha aparece codificada (base64) no bundle. Proteja o arquivo gerado.</div>'
+        const isB64Pwd = v.name === 'ADMIN_PASSWORD_B64' || v.name === 'VNC_PASSWORD_B64';
+        const alertBadge = isB64Pwd
+            ? '<div class="var-security-alert" style="color:var(--error);font-size:0.8em;margin-top:4px">ATENCAO: Armazenada em base64. O bundle decodifica durante a execucao.</div>'
             : '';
-        return `<input type="password" data-var-id="${varId}" value="${Utils.escapeHtml(val)}" class="var-input">${alertBadge}`;
+        const hint = isB64Pwd
+            ? ' placeholder="Digite a senha (sera codificada automaticamente)"'
+            : '';
+        return `<input type="password" data-var-id="${varId}" data-b64-encode="${isB64Pwd ? '1' : '0'}" value="${Utils.escapeHtml(val)}" class="var-input"${hint}>${alertBadge}`;
     }
     return `<input type="text" data-var-id="${varId}" value="${Utils.escapeHtml(val)}" class="var-input">`;
 }
@@ -1168,6 +1172,16 @@ async function saveVariables() {
             collected[varId] = value;
         }
     });
+
+    // Encode password fields marked as b64 before sending to API
+    document.querySelectorAll('[data-b64-encode="1"][data-var-id]').forEach(el => {
+        const varId = el.dataset.varId;
+        const raw = el.value.trim();
+        if (raw !== '' && varId in collected) {
+            collected[varId] = btoa(unescape(encodeURIComponent(raw)));
+        }
+    });
+
     Object.assign(updates, collected);
 
     const res = await API.post('variables-update', { organization_id: currentOrgId, variables: updates });

@@ -6,8 +6,9 @@
 # Configura o x11vnc para suporte remoto, incluindo servico systemd e
 # senha de acesso. A instalacao de pacotes e feita no core_packages.sh.
 #
-# SEGURANCA: A senha VNC e gravada em /etc/seederlinux/secrets.env
-# (perm 600) e usada diretamente com x11vnc -storepasswd.
+# SEGURANCA: A senha VNC e recebida como VNC_PASSWORD_B64 (base64),
+# decodificada em memoria e usada com x11vnc -storepasswd. Nunca
+# armazenada em texto plano no bundle ou no disco.
 #
 # Os placeholders {{VARIAVEL}} sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
@@ -24,8 +25,17 @@ echo "============================================================"
 # Variaveis
 # ============================================================
 VNC_ENABLED="{{VNC_ENABLED}}"
-VNC_PASSWORD="{{VNC_PASSWORD}}"
+VNC_PASSWORD_B64="__VNC_PASSWORD_B64__"
 DISPLAY_MANAGER="{{DISPLAY_MANAGER}}"
+
+# Decodificar senha VNC (armazenada em base64)
+if [ -n "$VNC_PASSWORD_B64" ] && [ "$VNC_PASSWORD_B64" != "" ]; then
+    VNC_PASSWORD=$(echo "$VNC_PASSWORD_B64" | base64 -d 2>/dev/null)
+    if [ -z "$VNC_PASSWORD" ]; then
+        echo ">>> AVISO: Falha ao decodificar VNC_PASSWORD_B64. Sera gerada senha aleatoria."
+    fi
+fi
+unset VNC_PASSWORD_B64
 
 echo ">>> VNC habilitado: $VNC_ENABLED"
 
@@ -86,6 +96,7 @@ fi
 
 chmod 600 "$SECRETS_FILE" 2>/dev/null || true
 unset VNC_PASSWORD
+unset VNC_PASSWORD_B64
 unset RANDOM_PASS
 
 # ============================================================

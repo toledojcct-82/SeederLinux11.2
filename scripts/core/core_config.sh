@@ -31,7 +31,7 @@ CONFIG_FILE="/etc/seederlinux/config.env"
 
 # ============================================================
 # Escrever variaveis nao-sensiveis no config.env
-# Variaveis sensiveis (VNC_PASSWORD, ADMIN_USERNAME) ficam em
+# Variaveis sensiveis (VNC_PASSWORD_B64, ADMIN_USERNAME) ficam em
 # /etc/seederlinux/secrets.env, gravadas por seus respectivos scripts.
 # ============================================================
 cat > "$CONFIG_FILE" <<EOF
