@@ -1292,16 +1292,16 @@ echo ">>> Ingressando no dominio..."
 echo ">>> Obtendo ticket Kerberos..."
 KINIT_OK=false
 
-# Tentativa 1: REALM maiusculo (Administrator@COMARA.INTRAER)
+# Tentativa 1: REALM maiusculo (Administrator@OM.LOCAL)
 echo "$ADMIN_PASSWORD" | kinit "${ADMIN_USERNAME}@${DOMINIO^^}" 2>/dev/null && KINIT_OK=true
 
-# Tentativa 2: NETBIOS (Administrator@COMARA)
+# Tentativa 2: NETBIOS (Administrator@OM)
 [ "$KINIT_OK" != "true" ] && echo "$ADMIN_PASSWORD" | kinit "${ADMIN_USERNAME}@${DOMINIO_NETBIOS}" 2>/dev/null && KINIT_OK=true
 
-# Tentativa 3: Dominio minusculo (administrator@comara.intraer)
+# Tentativa 3: Dominio minusculo (administrator@om.local)
 [ "$KINIT_OK" != "true" ] && echo "$ADMIN_PASSWORD" | kinit "${ADMIN_USERNAME,,}@${DOMINIO,,}" 2>/dev/null && KINIT_OK=true
 
-# Tentativa 4: Usuario minusculo, REALM maiusculo (administrator@COMARA.INTRAER)
+# Tentativa 4: Usuario minusculo, REALM maiusculo (administrator@OM.LOCAL)
 [ "$KINIT_OK" != "true" ] && echo "$ADMIN_PASSWORD" | kinit "${ADMIN_USERNAME,,}@${DOMINIO^^}" 2>/dev/null && KINIT_OK=true
 
 if [ "$KINIT_OK" != "true" ]; then

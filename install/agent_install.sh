@@ -64,7 +64,7 @@ chmod 750 "$CONFIG_DIR"
 if [ ! -f "$CONFIG_FILE" ]; then
     cat > "$CONFIG_FILE" << 'EOF'
 [server]
-url = https://seederlinux.comara.intraer
+url = https://seederlinux.om.local
 EOF
     chmod 640 "$CONFIG_FILE"
     echo -e "${GREEN}  Configuração criada em $CONFIG_FILE${NC}"
@@ -106,14 +106,14 @@ echo "  1. Edite $CONFIG_FILE se o servidor for diferente"
 echo ""
 echo "  2. Primeiro run — vincule a estação à organização (--org obrigatório):"
 echo "       sudo $AGENT_DEST --org <SIGLA_OM>"
-echo "       Exemplo: sudo $AGENT_DEST --org COMARA"
+echo "       Exemplo: sudo $AGENT_DEST --org OM"
 echo ""
 echo "  3. Após o primeiro run, o token é salvo automaticamente."
 echo "     Runs subsequentes não precisam de --org:"
 echo "       sudo $AGENT_DEST"
 echo ""
 echo "  4. Para testar sem executar bundle:"
-echo "       sudo $AGENT_DEST --org COMARA --dry-run --verbose"
+echo "       sudo $AGENT_DEST --org OM --dry-run --verbose"
 echo ""
 echo "  5. O agente executará automaticamente a cada 15 minutos (cron)."
 echo ""

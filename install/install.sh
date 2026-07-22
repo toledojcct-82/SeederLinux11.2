@@ -21,7 +21,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 DB_NAME="seederlinux"
 DB_USER="seeder"
-DB_PASS="seeder123"
+DB_PASS=$(openssl rand -base64 16 | tr -d "=+/" | cut -c1-16)
 
 APACHE_USER="www-data"
 APACHE_GROUP="www-data"
@@ -344,6 +344,19 @@ show_summary() {
     echo -e "  User:     ${DB_USER}"
     echo -e "  Pass:     ${DB_PASS}"
     echo -e "  Host:     localhost:5432"
+
+    echo -e "\n${RED}${BOLD}"
+    echo "╔══════════════════════════════════════════════════════════════════╗"
+    echo "║              GUARDE ESTA SENHA EM LOCAL SEGURO!               ║"
+    echo "╠══════════════════════════════════════════════════════════════════╣"
+    printf "║  Banco:   %-54s║\n" "${DB_NAME}"
+    printf "║  Usuario: %-54s║\n" "${DB_USER}"
+    printf "║  Senha:   %-54s║\n" "${DB_PASS}"
+    echo "╠══════════════════════════════════════════════════════════════════╣"
+    echo "║  Necessaria para manutencao e backup do sistema.              ║"
+    echo "║  Nao sera exibida novamente apos o fechamento deste terminal. ║"
+    echo "╚══════════════════════════════════════════════════════════════════╝"
+    echo -e "${NC}"
 
     echo -e "\n${BOLD}Arquivos:${NC}"
     echo -e "  Diretório: ${INSTALL_DIR}"
