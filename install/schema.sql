@@ -172,6 +172,10 @@ INSERT INTO variable_definitions (name, placeholder, description, type, category
 ('INSTALL_JAVA8', '{{INSTALL_JAVA8}}', 'Instalar Java 8 para sistemas legados?', 'boolean', 'aplicacoes', FALSE, 'false', 113),
 ('INSTALL_FIREFOX52', '{{INSTALL_FIREFOX52}}', 'Instalar Firefox 52.7 ESR para sistemas legados?', 'boolean', 'aplicacoes', FALSE, 'false', 114),
 ('INSTALL_PASSWORD_CHANGER', '{{INSTALL_PASSWORD_CHANGER}}', 'Instalar aplicativo grafico (Zenity) para troca de senha no AD', 'boolean', 'aplicacoes', FALSE, 'true', 115),
+('REMOVER_LIBREOFFICE', '{{REMOVER_LIBREOFFICE}}', 'Remover LibreOffice pre-instalado', 'boolean', 'aplicacoes', FALSE, 'false', 116),
+('INSTALL_LEGADOS', '{{INSTALL_LEGADOS}}', 'Instalar sistemas legados (Java 8, Firefox 52.7 ESR)', 'boolean', 'aplicacoes', FALSE, 'true', 117),
+('INSTALL_AGENT', '{{INSTALL_AGENT}}', 'Instalar agente de check-in periodico (seeder-agent)', 'boolean', 'agente', FALSE, 'true', 118),
+('AGENT_NO_CHECK_CERT', '{{AGENT_NO_CHECK_CERT}}', 'Permitir certificado autoassinado no agente (--no-check-certificate)', 'boolean', 'agente', FALSE, 'true', 119),
 ('JAVA_EXCEPTIONS', '{{JAVA_EXCEPTIONS}}', 'Excecoes de seguranca para Java (URLs autorizadas)', 'array', 'seguranca', FALSE, '', 116),
 
 -- Remote Access
