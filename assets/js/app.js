@@ -42,18 +42,12 @@ const API = {
         try {
             const response = await fetch(url, options);
             if (!response.ok) {
-                // Try to parse JSON error body from API before falling back to HTTP status
-                try {
-                    const errBody = await response.json();
-                    return { success: false, error: errBody.error || `HTTP ${response.status}: ${response.statusText}` };
-                } catch (_) {
-                    return { success: false, error: `HTTP ${response.status}: ${response.statusText}` };
-                }
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             return response.json();
         } catch (error) {
             console.error('API Error:', error);
-            return { success: false, error: error.message || 'Erro de conexão com o servidor' };
+            throw error;
         }
     },
 
@@ -77,14 +71,6 @@ const API = {
     async postMultipart(action, formData) {
         const url = this.buildUrl(action);
         const res = await fetch(url, { method: 'POST', body: formData, credentials: 'same-origin' });
-        if (!res.ok) {
-            try {
-                const errBody = await res.json();
-                return { success: false, error: errBody.error || `HTTP ${res.status}: ${res.statusText}` };
-            } catch (_) {
-                return { success: false, error: `HTTP ${res.status}: ${res.statusText}` };
-            }
-        }
         return res.json();
     }
 };
