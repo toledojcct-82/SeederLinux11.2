@@ -171,7 +171,8 @@ INSERT INTO variable_definitions (name, placeholder, description, type, category
 ('INSTALL_CHROMIUM', '{{INSTALL_CHROMIUM}}', 'Instalar Chromium?', 'boolean', 'aplicacoes', FALSE, 'false', 112),
 ('INSTALL_JAVA8', '{{INSTALL_JAVA8}}', 'Instalar Java 8 para sistemas legados?', 'boolean', 'aplicacoes', FALSE, 'false', 113),
 ('INSTALL_FIREFOX52', '{{INSTALL_FIREFOX52}}', 'Instalar Firefox 52.7 ESR para sistemas legados?', 'boolean', 'aplicacoes', FALSE, 'false', 114),
-('JAVA_EXCEPTIONS', '{{JAVA_EXCEPTIONS}}', 'Excecoes de seguranca para Java (URLs autorizadas)', 'array', 'seguranca', FALSE, '', 115),
+('INSTALL_PASSWORD_CHANGER', '{{INSTALL_PASSWORD_CHANGER}}', 'Instalar aplicativo grafico (Zenity) para troca de senha no AD', 'boolean', 'aplicacoes', FALSE, 'true', 115),
+('JAVA_EXCEPTIONS', '{{JAVA_EXCEPTIONS}}', 'Excecoes de seguranca para Java (URLs autorizadas)', 'array', 'seguranca', FALSE, '', 116),
 
 -- Remote Access
 ('REMOTE_METHOD', '{{REMOTE_METHOD}}', 'Metodo de acesso remoto (ssh, xrdp, anydesk)', 'select', 'acesso_remoto', FALSE, 'ssh', 120),

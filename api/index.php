@@ -1577,12 +1577,13 @@ function handleResetScriptOrder() {
         'core_config.sh'           => 13,
         'core_branding.sh'         => 14,
         'core_logon.sh'            => 15,
-        'core_logoff.sh'           => 16,
-        'core_session_lightdm.sh'  => 17,
-        'core_session_gdm3.sh'     => 18,
-        'core_session_sddm.sh'     => 19,
-        'core_agent.sh'            => 20,
-        'core_proxy.sh'            => 21,
+        'core_logoff.sh'           => 17,
+        'core_session_lightdm.sh'  => 18,
+        'core_session_gdm3.sh'     => 19,
+        'core_session_sddm.sh'     => 20,
+        'core_agent.sh'            => 21,
+        'core_proxy.sh'            => 22,
+        'core_password_change.sh'  => 16,
     ];
 
     Database::beginTransaction();
