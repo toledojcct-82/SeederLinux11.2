@@ -103,17 +103,18 @@ function log_audit($action, $entity, $entityId = null, $details = null) {
  * Substitui placeholders {{VARIAVEL}} pelos valores reais das variáveis da organização
  */
 function substituir_placeholders($content, $orgId) {
+    // Fetch all variable definitions with org-specific value if set, otherwise use default_value
     $vars = Database::fetchAll(
-        "SELECT vd.name, ov.value FROM organization_variables ov
-         JOIN variable_definitions vd ON vd.id = ov.variable_id
-         WHERE ov.organization_id = ?",
+        "SELECT vd.name, COALESCE(ov.value, vd.default_value, '') AS value
+         FROM variable_definitions vd
+         LEFT JOIN organization_variables ov
+           ON ov.variable_id = vd.id AND ov.organization_id = ?",
         [$orgId]
     );
 
     foreach ($vars as $v) {
         $placeholder = '{{' . $v['name'] . '}}';
-        $value = $v['value'] ?? '';
-        $content = str_replace($placeholder, $value, $content);
+        $content = str_replace($placeholder, $v['value'] ?? '', $content);
     }
 
     return $content;
