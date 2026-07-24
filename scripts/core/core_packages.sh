@@ -5,7 +5,7 @@
 # ============================================================================
 # Instala todos os pacotes necessarios para o funcionamento da estacao:
 # ferramentas de rede, autenticacao, sistema grafico, utilitarios.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

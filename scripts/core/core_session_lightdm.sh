@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura o LightDM como display manager e define os scripts de logon
 # e logoff que serao executados nas transicoes de sessao.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

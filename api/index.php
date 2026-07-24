@@ -444,7 +444,7 @@ function handleCreateOrganization($input) {
         jsonError('DC_IP e DNS Primario obrigatorios quando dominio informado');
     }
 
-    if (Database::fetchOne("SELECT id FROM organizations WHERE acronym = ?", [$acronym])) {
+    if (Database::fetchOne("SELECT id FROM organizations WHERE acronym = ? AND is_active = TRUE", [$acronym])) {
         jsonError('Sigla ja cadastrada');
     }
 

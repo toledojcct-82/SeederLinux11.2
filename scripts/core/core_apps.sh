@@ -5,7 +5,7 @@
 # ============================================================================
 # Instala aplicativos adicionais: OnlyOffice Desktop Editors, Google Chrome
 # estavel e Firefox ESR.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

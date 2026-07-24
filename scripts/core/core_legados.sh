@@ -8,7 +8,7 @@
 # Cada componente e controlado por seu proprio toggle:
 #   INSTALL_JAVA8     - Instalar Java 8?
 #   INSTALL_FIREFOX52 - Instalar Firefox 52.7 ESR?
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # Executado ANTES de core_domain.sh para evitar erro 407 de proxy.
 # ============================================================================

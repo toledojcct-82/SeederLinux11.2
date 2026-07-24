@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura o proxy HTTP/HTTPS no nivel do sistema (/etc/environment,
 # /etc/apt/apt.conf.d) e em variaveis de ambiente globais.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

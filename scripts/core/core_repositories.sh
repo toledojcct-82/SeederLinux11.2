@@ -11,7 +11,7 @@
 #   REPOSITORY_ZORIN_ENABLED  / REPOSITORY_ZORIN_URL
 # NUNCA altera sources.list se o modo for PUBLIC ou se o mirror da distro
 # detectada nao estiver habilitado.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

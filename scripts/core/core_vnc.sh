@@ -10,7 +10,7 @@
 # decodificada em memoria e usada com x11vnc -storepasswd. Nunca
 # armazenada em texto plano no bundle ou no disco.
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

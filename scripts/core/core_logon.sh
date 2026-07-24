@@ -11,7 +11,7 @@
 # configuracoes especificas via case. Le as variaveis de
 # /etc/seederlinux/config.env (persistente).
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

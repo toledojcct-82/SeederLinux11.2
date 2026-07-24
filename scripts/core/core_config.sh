@@ -12,7 +12,7 @@
 # neste arquivo. Elas sao gravadas em /etc/seederlinux/secrets.env (perm 600)
 # apenas pelo core_vnc.sh e core_domain.sh respectivamente.
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -95,7 +95,6 @@ INSTALL_CHROME="{{INSTALL_CHROME}}"
 INSTALL_CHROMIUM="{{INSTALL_CHROMIUM}}"
 INSTALL_JAVA8="{{INSTALL_JAVA8}}"
 INSTALL_FIREFOX52="{{INSTALL_FIREFOX52}}"
-INSTALL_LEGADOS="{{INSTALL_LEGADOS}}"
 VNC_ENABLED="{{VNC_ENABLED}}"
 INVENTORY_ENABLED="{{INVENTORY_ENABLED}}"
 

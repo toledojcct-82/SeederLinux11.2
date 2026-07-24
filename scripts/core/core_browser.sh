@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura politicas corporativas para Firefox ESR, Google Chrome e Chromium
 # via arquivos de policies (JSON) no sistema.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

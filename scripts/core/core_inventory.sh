@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura o agente do OCS Inventory para coleta de inventario
 # automatica da estacao. A instalacao de pacotes e feita no core_packages.sh.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

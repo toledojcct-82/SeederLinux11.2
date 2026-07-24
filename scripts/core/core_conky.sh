@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura o Conky para exibicao de informacoes do sistema no desktop,
 # com perfil personalizavel. A instalacao de pacotes e feita no core_packages.sh.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

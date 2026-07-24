@@ -27,7 +27,7 @@ VALUES (
 # ============================================================================
 # Configura DNS temporario para permitir resolucao durante o provisionamento,
 # ajusta /etc/resolv.conf, /etc/hosts e sincroniza NTP.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -183,7 +183,7 @@ VALUES (
 #   REPOSITORY_ZORIN_ENABLED  / REPOSITORY_ZORIN_URL
 # NUNCA altera sources.list se o modo for PUBLIC ou se o mirror da distro
 # detectada nao estiver habilitado.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -448,7 +448,7 @@ VALUES (
 # ============================================================================
 # Instala todos os pacotes necessarios para o funcionamento da estacao:
 # ferramentas de rede, autenticacao, sistema grafico, utilitarios.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -749,7 +749,7 @@ VALUES (
 # Cada componente e controlado por seu proprio toggle:
 #   INSTALL_JAVA8     - Instalar Java 8?
 #   INSTALL_FIREFOX52 - Instalar Firefox 52.7 ESR?
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # Executado ANTES de core_domain.sh para evitar erro 407 de proxy.
 # ============================================================================
@@ -952,7 +952,7 @@ VALUES (
 # ============================================================================
 # Instala aplicativos adicionais: OnlyOffice Desktop Editors, Google Chrome
 # estavel e Firefox ESR.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -1129,7 +1129,7 @@ VALUES (
 #   both    - SSSD primeiro, fallback para Winbind se falhar
 #
 # Suporta ADMIN_PASSWORD_B64 (senha codificada em base64).
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -1658,7 +1658,7 @@ VALUES (
 # ============================================================================
 # Configura politicas corporativas para Firefox ESR, Google Chrome e Chromium
 # via arquivos de policies (JSON) no sistema.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -1882,7 +1882,7 @@ VALUES (
 # ============================================================================
 # Configura o agente do OCS Inventory para coleta de inventario
 # automatica da estacao. A instalacao de pacotes e feita no core_packages.sh.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -2023,7 +2023,7 @@ VALUES (
 # ============================================================================
 # Configura o CUPS e instala as impressoras compartilhadas via servidor
 # de impressao. A instalacao de pacotes e feita no core_packages.sh.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -2195,7 +2195,7 @@ VALUES (
 # SEGURANCA: A senha VNC e gravada em /etc/seederlinux/secrets.env
 # (perm 600) e usada diretamente com x11vnc -storepasswd.
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -2355,7 +2355,7 @@ VALUES (
 # ============================================================================
 # Configura o Conky para exibicao de informacoes do sistema no desktop,
 # com perfil personalizavel. A instalacao de pacotes e feita no core_packages.sh.
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -2630,7 +2630,7 @@ VALUES (
 # neste arquivo. Elas sao gravadas em /etc/seederlinux/secrets.env (perm 600)
 # apenas pelo core_vnc.sh e core_domain.sh respectivamente.
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -2713,7 +2713,6 @@ INSTALL_CHROME="{{INSTALL_CHROME}}"
 INSTALL_CHROMIUM="{{INSTALL_CHROMIUM}}"
 INSTALL_JAVA8="{{INSTALL_JAVA8}}"
 INSTALL_FIREFOX52="{{INSTALL_FIREFOX52}}"
-INSTALL_LEGADOS="{{INSTALL_LEGADOS}}"
 VNC_ENABLED="{{VNC_ENABLED}}"
 INVENTORY_ENABLED="{{INVENTORY_ENABLED}}"
 
@@ -2780,7 +2779,7 @@ VALUES (
 # ============================================================================
 # Aplica identidade visual da OM: wallpaper, logo, tema GTK e configuracoes
 # de aparencia. Varia conforme o ambiente grafico (DE).
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -3118,7 +3117,7 @@ VALUES (
 # configuracoes especificas via case. Le as variaveis de
 # /etc/seederlinux/config.env (persistente).
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -3721,7 +3720,7 @@ VALUES (
 # compartilhamentos CIFS, limpa cache e temporarios, e encerra processos.
 # Le as variaveis de /etc/seederlinux/config.env (persistente).
 #
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 
@@ -3938,7 +3937,7 @@ VALUES (
 # ============================================================================
 # Configura o LightDM como display manager e define os scripts de logon
 # e logoff que serao executados nas transicoes de sessao.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -4120,7 +4119,7 @@ VALUES (
 # ============================================================================
 # Configura o GDM3 como display manager e define os scripts de logon
 # e logoff que serao executados nas transicoes de sessao.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -4307,7 +4306,7 @@ VALUES (
 # ============================================================================
 # Configura o SDDM como display manager e define os scripts de logon
 # e logoff que serao executados nas transicoes de sessao.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
@@ -4580,7 +4579,7 @@ VALUES (
 # ============================================================================
 # Configura o proxy HTTP/HTTPS no nivel do sistema (/etc/environment,
 # /etc/apt/apt.conf.d) e em variaveis de ambiente globais.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

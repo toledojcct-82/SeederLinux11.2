@@ -5,7 +5,7 @@
 # ============================================================================
 # Aplica identidade visual da OM: wallpaper, logo, tema GTK e configuracoes
 # de aparencia. Varia conforme o ambiente grafico (DE).
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 

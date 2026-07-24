@@ -12,7 +12,7 @@
 #   both    - SSSD primeiro, fallback para Winbind se falhar
 #
 # Suporta ADMIN_PASSWORD_B64 (senha codificada em base64).
-# Os placeholders {{VARIAVEL}} sao substituidos automaticamente
+# Os placeholders VARIAVEL sao substituidos automaticamente
 # pelo sistema na geracao do bundle.
 # ============================================================================
 

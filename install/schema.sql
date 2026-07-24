@@ -12,7 +12,7 @@
 CREATE TABLE IF NOT EXISTS organizations (
     id SERIAL PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    acronym VARCHAR(20) UNIQUE NOT NULL,
+    acronym VARCHAR(20) NOT NULL,
     domain VARCHAR(100),
     description TEXT,
     is_active BOOLEAN DEFAULT true,
@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS variable_definitions (
     display_order INTEGER DEFAULT 0
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_organizations_acronym_active ON organizations (acronym) WHERE is_active = TRUE;
 CREATE INDEX IF NOT EXISTS idx_var_defs_category ON variable_definitions(category);
 CREATE INDEX IF NOT EXISTS idx_var_defs_type ON variable_definitions(type);
 
@@ -149,7 +150,7 @@ INSERT INTO variable_definitions (name, placeholder, description, type, category
 ('WALLPAPER_LOGIN_URL', '{{WALLPAPER_LOGIN_URL}}', 'URL do wallpaper da tela de login', 'image', 'assets', FALSE, '', 84),
 ('LOGO_URL', '{{LOGO_URL}}', 'URL do logo da OM', 'image', 'assets', FALSE, '/assets/logos/default.png', 85),
 ('GREETER_URL', '{{GREETER_URL}}', 'URL do greeter personalizado (tela de boas-vindas)', 'image', 'assets', FALSE, '', 86),
-('THEME', '{{THEME}}', 'Tema GTK a ser aplicado', 'string', 'branding', FALSE, 'Adwaita', 87),
+('THEME', '{{THEME}}', 'Tema GTK a ser aplicado', 'string', 'branding', FALSE, 'DEFAULT', 87),
 ('CONKY_PROFILE', '{{CONKY_PROFILE}}', 'Perfil base do Conky (default, minimal, full, custom)', 'select', 'monitoramento', FALSE, 'default', 88),
 ('CONKY_CONFIG', '{{CONKY_CONFIG}}', 'Configuracao avancada do Conky (JSON com cores, posicao, modulos exibidos)', 'json_conky', 'monitoramento', FALSE, '{"position":"top_right","transparent":true,"color_text":"#FFFFFF","color_bg":"#000000","font_size":10,"gap_x":10,"gap_y":40,"show_cpu":true,"show_ram":true,"show_disk":true,"disk_partition":"/","show_network":true,"network_interface":"eth0","show_top_processes":true,"show_datetime":true,"update_interval":1.0}', 89),
 
@@ -182,7 +183,7 @@ INSERT INTO variable_definitions (name, placeholder, description, type, category
 ('VNC_PASSWORD', '{{VNC_PASSWORD}}', 'Senha do servidor VNC (em branco = aleatoria)', 'password', 'acesso_remoto', FALSE, '', 123),
 
 -- Certificates
-('CERTIFICATE_BUNDLE', '{{CERTIFICATE_BUNDLE}}', 'URL do bundle de certificados CA', 'url', 'certificados', FALSE, '', 130),
+('CERTIFICATE_BUNDLE', '{{CERTIFICATE_BUNDLE}}', 'URL para download do pacote de certificados CA institucionais (formato .tar.gz ou .crt). Deixe vazio se nao houver certificados personalizados.', 'url', 'certificados', FALSE, '', 130),
 ('CERTIFICATE_AUTO_INSTALL', '{{CERTIFICATE_AUTO_INSTALL}}', 'Instalar certificados automaticamente', 'boolean', 'certificados', FALSE, 'true', 131),
 
 -- SeederLinux Server

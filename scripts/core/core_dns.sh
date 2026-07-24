@@ -5,7 +5,7 @@
 # ============================================================================
 # Configura DNS temporario para permitir resolucao durante o provisionamento,
 # ajusta /etc/resolv.conf, /etc/hosts e sincroniza NTP.
-# Os placeholders {{VARIAVEL}} são substituídos automaticamente
+# Os placeholders VARIAVEL são substituídos automaticamente
 # pelo sistema na geração do bundle.
 # ============================================================================
 
